@@ -3,13 +3,11 @@
 module Challenge_1 where
 
 import Data.Char (ord)
-import Control.Arrow ((***),(&&&))
 import Data.List.Split (chunksOf)
 
 -- Solution
 
-hexStringTo64String = concatMap (reverse . base64Reversed  . decodeHexToInt)
-                    . breakInto24BitChunks
+hexStringTo64String = concatMap (base64 . decodeHexToInt) . breakInto24BitChunks
 
 -- Implementation
 
@@ -21,6 +19,8 @@ numOrd a | elem a ['0'..'9'] = 00 + ord a - ord '0'
          | elem a ['A'..'F'] = 10 + ord a - ord 'A'
          | elem a ['a'..'f'] = 10 + ord a - ord 'a'
          | otherwise         = error "invalid 64 bit encoding"
+
+base64 = reverse . base64Reversed
 
 base64Reversed n | (d,m) == (0,0) = []
                  | otherwise      = toChar m : base64Reversed d
