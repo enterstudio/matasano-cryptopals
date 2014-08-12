@@ -11,10 +11,15 @@
 
 module Challenge_2 where
 
-xor = (+)
-hexDecode = const 1
-hexEncode = const "hello"
+import Safe
+import Numeric
+import Data.Bits
 
-prop_pass = "746865206b696420646f6e277420706c6179"
-         == hexEncode ( hexDecode "1c0111001f010100061a024b53535009181c"
-                  `xor` hexDecode "686974207468652062756c6c277320657965" )
+hexDecode :: String -> Maybe Integer
+hexDecode = fmap fst . headMay . readHex
+hexEncode = Just . ($ "") . showHex
+
+prop_pass = Just "746865206b696420646f6e277420706c6179"
+         == do a <- hexDecode "1c0111001f010100061a024b53535009181c"
+               b <- hexDecode "686974207468652062756c6c277320657965"
+               hexEncode (xor a b)
