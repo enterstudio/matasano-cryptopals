@@ -14,10 +14,10 @@ import qualified Data.Set as S
 main :: IO ()
 main = do
   cs <- BSLC8.lines `fmap` BSL.readFile "../files/8.txt"
-  mapM_ display $ take 5 $ sortBy (comparing snd) $ map (fst &&& (rank.snd)) $ zip [0 :: Int ..] cs
+  mapM_ display $ take 5 $ sortBy (comparing snd) $ map (id *** rank) $ zip [0..] cs
 
 rank :: BSLC8.ByteString -> Int
 rank c = S.size $ S.fromList $ chunksOf 16 $ BSL.unpack c
 
-display :: (Show a1, Show a) => (a, a1) -> IO ()
+display :: (Int, Int) -> IO ()
 display (a,b) = putStrLn $ "Line: " ++ show a ++ ", Distinct 16-Byte Blocks: " ++ show b
