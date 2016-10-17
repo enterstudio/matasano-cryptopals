@@ -130,14 +130,17 @@ run (Right  c) = do
 
   putStrLn $ "Got Key-Sizes:      " ++ show kss
 
-  let keyps = do
-      ks <- kss
-      let cs   = map BSL.pack $ transpose $ chunksOf ks $ BSL.unpack c
-          key  = map crackXor cs
-          keyp = BSL.pack key
-      return keyp
+  let keyps = keypsf c kss
 
   forM_ keyps $ \keyp -> putStrLn $ "Got Key:            " ++ show keyp
 
   forM_ keyps $ \keyp ->
     putStrLn $ "Got plain-text:     " ++ show (BSL.take 70 (unscramble keyp c)) ++ "..."
+
+keypsf ::  Monad m => BSC8.ByteString -> m Int -> m BSC8.ByteString
+keypsf c kss = do
+  ks <- kss
+  let cs   = map BSL.pack $ transpose $ chunksOf ks $ BSL.unpack c
+      key  = map crackXor cs
+      keyp = BSL.pack key
+  return keyp
