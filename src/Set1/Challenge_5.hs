@@ -1,6 +1,21 @@
 
 {-# LANGUAGE OverloadedStrings #-}
 
+{-
+
+Set 1 - Challenge 5 (https://cryptopals.com/sets/1/challenges/5)
+===================
+
+Detect single-character XOR
+
+One of the 60-character strings in this file has been encrypted by single-character XOR.
+
+Find it. (Your code from #3 should help.)
+
+-}
+
+module Set1.Challenge_5 where
+
 import qualified Data.ByteString.Lazy as BSL
 import Data.Array as A
 import Data.Bits

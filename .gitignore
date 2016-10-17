@@ -1,2 +1,4 @@
 dist/
 hugsin
+.stack-work/
+stack.yaml
